@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kevin Grillo — Graphic Designer & Digital Ads</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --card: #16161f;
+    --accent: #c8f25a;
+    --accent2: #7c6af5;
+    --text: #f0f0f0;
+    --muted: #888;
+    --border: rgba(255,255,255,0.07);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.4rem 3rem;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 3rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-blob {
+    position: absolute;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(124,106,245,0.18) 0%, transparent 70%);
+    top: -100px; right: -150px;
+    pointer-events: none;
+  }
+
+  .hero-bg-blob2 {
+    position: absolute;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(200,242,90,0.1) 0%, transparent 70%);
+    bottom: 0; left: 30%;
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.2s forwards;
+  }
+
+  .hero-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.4s forwards;
+  }
+
+  .hero-name .line2 {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+  }
+
+  .hero-name .accent { color: var(--accent); }
+
+  .hero-desc {
+    max-width: 520px;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.6s forwards;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.8s forwards;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 2rem;
+    border-radius: 2px;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #0a0a0f;
+  }
+
+  .btn-primary:hover {
+    background: #d8ff6a;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(200,242,90,0.25);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 3.5rem;
+    margin-top: 5rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+    opacity: 0;
+    animation: fadeUp 0.7s 1s forwards;
+  }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.78rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    margin-top: 0.3rem;
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 3rem; position: relative; }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 3rem;
+  }
+
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ── SKILLS ── */
+  .skills-section { background: var(--surface); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  .skill-block {
+    background: var(--card);
+    padding: 2.5rem;
+    transition: background 0.3s;
+  }
+
+  .skill-block:hover { background: #1e1e2a; }
+
+  .skill-icon {
+    width: 44px; height: 44px;
+    background: rgba(200,242,90,0.1);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+  }
+
+  .skill-block h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    color: var(--text);
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1rem;
+  }
+
+  .tag {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    padding: 0.25rem 0.7rem;
+    border-radius: 1px;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── PORTFOLIO ── */
+  .portfolio-intro {
+    max-width: 600px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .project-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+  }
+
+  .project-card:hover .project-thumb { transform: scale(1.04); }
+
+  .project-card.featured { grid-column: span 7; }
+  .project-card.side { grid-column: span 5; }
+  .project-card.third { grid-column: span 4; }
+
+  .project-thumb {
+    width: 100%;
+    aspect-ratio: 16/10;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s;
+    background: linear-gradient(135deg, #1e1e2a, #2a2a3a);
+  }
+
+  .project-thumb-placeholder {
+    width: 100%;
+    aspect-ratio: 16/10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    transition: transform 0.5s;
+  }
+
+  .project-card:hover .project-thumb-placeholder { transform: scale(1.04); }
+
+  .project-info {
+    padding: 1.5rem;
+  }
+
+  .project-cat {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+
+  .project-desc {
+    font-size: 0.83rem;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1rem;
+    font-size: 0.78rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: gap 0.2s;
+  }
+
+  .project-link:hover { gap: 0.7rem; }
+
+  /* Thumb color themes */
+  .thumb-law { background: linear-gradient(135deg, #1a1a2e, #16213e); }
+  .thumb-med { background: linear-gradient(135deg, #0f2027, #203a43); }
+  .thumb-food { background: linear-gradient(135deg, #1e3c1a, #2a5225); }
+  .thumb-bls { background: linear-gradient(135deg, #1a0a2e, #2e1a3e); }
+  .thumb-fresh { background: linear-gradient(135deg, #0a2e20, #1a4030); }
+  .thumb-fruti { background: linear-gradient(135deg, #2e1a0a, #3e2a1a); }
+
+  /* ── AD FORMATS CALLOUT ── */
+  .formats-bar {
+    background: var(--accent);
+    color: #0a0a0f;
+    padding: 1.5rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .formats-bar span {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .formats-bar span::before { content: '✓'; }
+
+  /* ── ABOUT ── */
+  .about-section { background: var(--surface); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+    margin-top: 3rem;
+  }
+
+  .about-text p {
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 1.2rem;
+    font-size: 1rem;
+  }
+
+  .about-text p strong { color: var(--text); font-weight: 500; }
+
+  .exp-list { list-style: none; }
+
+  .exp-item {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .exp-year {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    padding-top: 0.15rem;
+    white-space: nowrap;
+  }
+
+  .exp-role {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text);
+    margin-bottom: 0.2rem;
+  }
+
+  .exp-co {
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  /* ── CONTACT ── */
+  .contact-section {
+    text-align: center;
+    padding: 8rem 3rem;
+    background: var(--card);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(124,106,245,0.12) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .contact-section .section-title { margin-bottom: 1.5rem; }
+
+  .contact-sub {
+    color: var(--muted);
+    max-width: 480px;
+    margin: 0 auto 3rem;
+    line-height: 1.7;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .social-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: 1px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+
+  .social-chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2rem 3rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s, transform 0.7s;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .hero { padding: 7rem 1.5rem 4rem; }
+    .hero-stats { gap: 2rem; flex-wrap: wrap; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card.featured,
+    .project-card.side,
+    .project-card.third { grid-column: span 1; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    .formats-bar { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">KG</div>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:kevjesusg17@gmail.com" class="btn btn-primary" style="padding:0.6rem 1.4rem;font-size:0.75rem;">Hire Me</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-blob"></div>
+  <div class="hero-bg-blob2"></div>
+  <p class="hero-eyebrow">Graphic Designer & Digital Ads Specialist</p>
+  <h1 class="hero-name">
+    Kevin<br>
+    <span class="line2">Grillo<span class="accent">.</span></span>
+  </h1>
+  <p class="hero-desc">Designing ad creatives that stop the scroll — Facebook image ads, IAB display banners, brand identities, and web experiences. 5+ years across digital agencies and international clients.</p>
+  <div class="hero-cta">
+    <a href="#work" class="btn btn-primary">View Portfolio →</a>
+    <a href="mailto:kevjesusg17@gmail.com" class="btn btn-outline">Get in Touch</a>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="stat-num">5+</div>
+      <div class="stat-label">Years Experience</div>
+    </div>
+    <div>
+      <div class="stat-num">3+</div>
+      <div class="stat-label">Countries Served</div>
+    </div>
+    <div>
+      <div class="stat-num">C2</div>
+      <div class="stat-label">English Level</div>
+    </div>
+    <div>
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Ad Sizes Adapted</div>
+    </div>
+  </div>
+</section>
+
+<!-- AD FORMATS BAR -->
+<div class="formats-bar">
+  <span>Facebook Image Ads</span>
+  <span>IAB Display Banners</span>
+  <span>Multi-Format Resizing</span>
+  <span>Brand Guidelines</span>
+  <span>Adobe Photoshop & Illustrator</span>
+  <span>Canva</span>
+</div>
+
+<!-- SKILLS -->
+<section class="skills-section" id="skills">
+  <div class="section-label">Capabilities</div>
+  <h2 class="section-title reveal">What I Bring<br>to the Table</h2>
+  <div class="skills-grid reveal">
+    <div class="skill-block">
+      <div class="skill-icon">🎨</div>
+      <h3>Ad Creative Design</h3>
+      <p style="font-size:0.85rem;color:var(--muted);line-height:1.6;">Creating Facebook image ads and IAB standard display banners that balance visual impact with on-brand messaging.</p>
+      <div class="skill-tags">
+        <span class="tag">Facebook Ads</span>
+        <span class="tag">Display Banners</span>
+        <span class="tag">Social Creatives</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-icon">🖌️</div>
+      <h3>Design Tools</h3>
+      <p style="font-size:0.85rem;color:var(--muted);line-height:1.6;">Proficient in the full Adobe Suite and Canva for designing, editing, and exporting ad assets at any size or spec.</p>
+      <div class="skill-tags">
+        <span class="tag">Photoshop</span>
+        <span class="tag">Illustrator</span>
+        <span class="tag">Canva</span>
+        <span class="tag">Adobe Suite</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-icon">📐</div>
+      <h3>Visual Principles</h3>
+      <p style="font-size:0.85rem;color:var(--muted);line-height:1.6;">Strong foundation in composition, typography, and visual hierarchy — the building blocks of ads that convert.</p>
+      <div class="skill-tags">
+        <span class="tag">Typography</span>
+        <span class="tag">Composition</span>
+        <span class="tag">Visual Hierarchy</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-icon">📊</div>
+      <h3>Digital Marketing</h3>
+      <p style="font-size:0.85rem;color:var(--muted);line-height:1.6;">Beyond design — I understand how ads perform. Experience with Facebook Ads Manager, Google Ads, and campaign analytics.</p>
+      <div class="skill-tags">
+        <span class="tag">Facebook Ads Manager</span>
+        <span class="tag">Google Ads</span>
+        <span class="tag">Analytics</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-icon">🌐</div>
+      <h3>Web & E-Commerce</h3>
+      <p style="font-size:0.85rem;color:var(--muted);line-height:1.6;">Design-to-web capability with WordPress, WooCommerce, and front-end development for seamless campaign landing pages.</p>
+      <div class="skill-tags">
+        <span class="tag">WordPress</span>
+        <span class="tag">WooCommerce</span>
+        <span class="tag">HTML/CSS</span>
+        <span class="tag">UX</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-icon">🔖</div>
+      <h3>Brand Identity</h3>
+      <p style="font-size:0.85rem;color:var(--muted);line-height:1.6;">Logo design, branding systems, and packaging — building visual languages that stay consistent across every format.</p>
+      <div class="skill-tags">
+        <span class="tag">Logo Design</span>
+        <span class="tag">Branding</span>
+        <span class="tag">Packaging</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work" style="padding: 6rem 3rem;">
+  <div class="section-label">Portfolio</div>
+  <h2 class="section-title reveal">Selected Work</h2>
+  <p class="portfolio-intro reveal">A selection of projects spanning web design, branding, packaging, and digital marketing — built for clients in the US, Venezuela, and Peru.</p>
+
+  <div class="projects-grid">
+
+    <!-- FEATURED -->
+    <div class="project-card featured reveal">
+      <div class="project-image">
+    			<img	src="https://lh3.googleusercontent.com/sitesv/APaQ0SRGh3Vzy_kdRsK48esEUt9qy1opSPSBxEGxDS_wGfhrZcnw9X827BlMrawcxxp5w_BeZ0tqrPgPmmcR31fdkeQyo4UBGyPp5um3lqL1LJWSM9ourFdao1C1Vf7SBwrOJpQVDwda51YqaRZOgFV17qtR8BCMNwbPwSo8JfaQOPMuUnCR1VA8CKJ4vE1o61ohgWSXspXzU7oN6OOBI4B0Ss-IpVjVEwJt1tX_=w1280" 	alt="YourDefenseAttorneyLA Project" style="width: 100%; height: auto; display: block;">
+	</div>
+      <div class="project-info">
+        <div class="project-cat">Web Design · English</div>
+        <div class="project-title">YourDefenseAttorneyLA</div>
+        <p class="project-desc">Full website design for a Los Angeles criminal defense law firm with 40+ years of experience. Clean, authoritative layout designed to convert visitors into clients.</p>
+        <a href="https://yourdefenseattorneyla.com/english/" target="_blank" class="project-link">Visit Site →</a>
+      </div>
+    </div>
+
+    <div class="project-card side reveal" style="animation-delay:0.1s">
+	<img src="https://lh3.googleusercontent.com/sitesv/APaQ0STyqM3zLG5OdabgmOfaPIUXsRAwphOw3Hryb9XBIHo55yTKCTm25cH6PbJN7VlMB8Av-m8uXN_in1RxcCGldW4gKiddl-jxJoyAQhTmdcoAmzovREbpZmqUjNTJYthM9NqAbG4cHMN5vJ946c5eP3mcekGtU0m05Y5luxAicckWSZ_3MNPIXsmGvQk=w16383" alt="Medical Alert Project" class="project-thumb-placeholder thumb-med">
+      <div class="project-info">
+        <div class="project-cat">Landing Page · Health</div>
+        <div class="project-title">Medical Alert</div>
+        <p class="project-desc">Landing page for a medical alert device distributor targeting senior care. Optimized for conversions with clear visual hierarchy and trust signals.</p>
+        <a href="https://www.behance.net/gallery/117432081/Medical-Alert-Landing-Page" target="_blank" class="project-link">View on Behance →</a>
+      </div>
+    </div>
+
+    <div class="project-card third reveal" style="animation-delay:0.15s">
+	<img src="https://lh3.googleusercontent.com/sitesv/APaQ0SQU54o-zdewrYfXf4GQOnzgnmxklusizeU_mXzICw5k87nj7RhdImg5HVjDEbee7rQq_bWBS93J02mIxqcCrEzJBUBjLonma1qsCM-DEe6KYsIH0ImBj6oRmjKeFroYleAXU1cx-8B0CMOcbD9sBmRYBqd_HpWd2NUglD_na7YSyk4WV41fR3SU=w16383" alt="Medical Alert Project" class="project-thumb-placeholder thumb-med">
+      <div class="project-info">
+        <div class="project-cat">Web Design · Food Brand</div>
+        <div class="project-title">FrutiSec</div>
+        <p class="project-desc">Page tour design for a dehydrated fruit snacks brand. Warm, natural aesthetic aligned with healthy lifestyle positioning.</p>
+        <a href="https://www.behance.net/gallery/117454413/FrutiSec-PageTour" target="_blank" class="project-link">View on Behance →</a>
+      </div>
+    </div>
+
+    <div class="project-card third reveal" style="animation-delay:0.2s">
+	<img src="https://lh3.googleusercontent.com/sitesv/APaQ0SQKz3HuHHOnYWKkVkYzZGIh63OLwgfCKrkL4Qrz5l7KCBUHG5C83qJYsATqHsm4DbeJqUCqHEi3ZenKHAspVyx4iIDIiDLt29ugV6LhJh8k8SXzieIbXIsGNrGbyAPqi6OMbgxMtPLew_soZiueXrbNa9jxfoLHDyhJ0_TTgbwl-4Wx_pwI2DC2pNk=w16383" alt="Medical Alert Project" class="project-thumb-placeholder thumb-med">
+      <div class="project-info">
+        <div class="project-cat">Web Design · Marketing</div>
+        <div class="project-title">Best Lead Solution</div>
+        <p class="project-desc">Website for a US-based lead generation and marketing agency specializing in medical surveys.</p>
+        <a href="https://www.behance.net/gallery/117532075/BLS-Caracas" target="_blank" class="project-link">View on Behance →</a>
+      </div>
+    </div>
+
+    <div class="project-card third reveal" style="animation-delay:0.25s">
+	<img src="https://lh3.googleusercontent.com/sitesv/APaQ0SRUKIX8S9HgBMIW9Hq7kAzmqP2-dcK2YUT46CkJlnbrBrKy_CF3yyRZJthiNG_JB7VR47lQljg2Lh-VWZlFDuLyIU-jQSpKuUS2l0hhZ2LfNXbOigxldFXmhwrsMwU0KjHMFCRblIhnjb3xkkLN-uv_Qw9fpTuMEVojk7ZYmKDVDwxjG9Wjha7haUw=w16383" alt="Medical Alert Project" class="project-thumb-placeholder thumb-med">
+
+      <div class="project-info">
+        <div class="project-cat">Branding & Packaging</div>
+        <div class="project-title">FreshNess</div>
+        <p class="project-desc">Full brand identity and packaging design for an antibacterial gel product — from logo concept to shelf-ready packaging.</p>
+      </div>
+    </div>
+
+    <!-- LOGO / BRANDING CARD -->
+    <div class="project-card featured reveal" style="animation-delay:0.3s">
+      <div class="project-thumb-placeholder" style="background:linear-gradient(135deg,#1a1a2e,#2a1a3e);font-size:3rem;gap:1rem;flex-wrap:wrap;padding:2rem;">
+        🏭&nbsp;&nbsp;🍷&nbsp;&nbsp;📦&nbsp;&nbsp;🏷️
+      </div>
+      <div class="project-info">
+        <div class="project-cat">Logo Design · Branding System</div>
+        <div class="project-title">Multi-Brand Logo Work</div>
+        <p class="project-desc">Logo design across multiple brands: EJ&UM Seguridad Industrial (3 concept variations), FrutiSec brand identity and FrutiSec V wine-from-coffee line, and BLS full branding system. Each built with multi-concept exploration and cohesive visual guidelines.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="section-label">About</div>
+  <div class="about-grid">
+    <div>
+      <h2 class="section-title reveal">Designer Who Understands How Ads Actually Work</h2>
+      <div class="about-text reveal">
+        <p>I'm a <strong>Venezuelan-born creative</strong> based in Lima, Peru, with over 5 years designing digital experiences for clients across the US, Venezuela, and Latin America.</p>
+        <p>My background sits at the intersection of <strong>graphic design and digital marketing</strong> — I don't just design ads, I've also run the campaigns. That means I understand what makes a creative perform, not just look good.</p>
+        <p>I specialize in <strong>Facebook image ads, IAB display banners</strong>, brand identity, packaging, and web design — adapting assets across every format and spec with pixel-level attention to detail.</p>
+        <p>Fluent in <strong>English (C2)</strong> and Spanish. Comfortable working remotely with US-based teams and tight deadlines.</p>
+        <a href="mailto:kevjesusg17@gmail.com" class="btn btn-primary" style="margin-top:1.5rem;display:inline-flex;">Start a Project →</a>
+      </div>
+    </div>
+    <div class="reveal">
+      <ul class="exp-list">
+        <li class="exp-item">
+          <span class="exp-year">2020–Now</span>
+          <div>
+            <div class="exp-role">Graphic Designer & Web Developer</div>
+            <div class="exp-co">QUIA Graphics E.I.R.L — Lima, Peru</div>
+          </div>
+        </li>
+        <li class="exp-item">
+          <span class="exp-year">2022–Now</span>
+          <div>
+            <div class="exp-role">Remote Interpreter (OPI/VRI)</div>
+            <div class="exp-co">Freelance — Remote</div>
+          </div>
+        </li>
+        <li class="exp-item">
+          <span class="exp-year">2018–2021</span>
+          <div>
+            <div class="exp-role">Digital Marketing Designer</div>
+            <div class="exp-co">BLS Solution Asesores S.A — San Diego, USA</div>
+          </div>
+        </li>
+        <li class="exp-item" style="border-bottom:none;">
+          <span class="exp-year">Tools</span>
+          <div>
+            <div class="skill-tags" style="margin-top:0.3rem;">
+              <span class="tag">Photoshop</span>
+              <span class="tag">Illustrator</span>
+              <span class="tag">Canva</span>
+              <span class="tag">Google Ads</span>
+              <span class="tag">Facebook Ads Manager</span>
+              <span class="tag">WordPress</span>
+              <span class="tag">HTML/CSS</span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="contact-bg"></div>
+  <div class="section-label" style="justify-content:center;">Contact</div>
+  <h2 class="section-title reveal">Let's Work Together</h2>
+  <p class="contact-sub reveal">Looking for a designer who can deliver polished ad creatives and meet tight deadlines? Let's talk.</p>
+  <div class="contact-links reveal">
+    <a href="mailto:kevjesusg17@gmail.com" class="btn btn-primary">kevjesusg17@gmail.com →</a>
+  </div>
+  <div class="contact-links reveal" style="margin-top:1.5rem;">
+    <a href="https://www.linkedin.com/in/kevjesus17/" target="_blank" class="social-chip">LinkedIn</a>
+    <a href="https://www.behance.net/kevjesus" target="_blank" class="social-chip">Behance</a>
+    <a href="https://www.instagram.com/ilgrillo17/" target="_blank" class="social-chip">Instagram</a>
+    <a href="https://dribbble.com/kevjesusg17" target="_blank" class="social-chip">Dribbble</a>
+    <a href="https://wa.me/51977571858" target="_blank" class="social-chip">WhatsApp</a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Kevin Grillo — All rights reserved.</span>
+  <span>Lima, Peru · +51 977 571 858</span>
+</footer>
+
+<script>
+  // Intersection observer for reveal animations
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
